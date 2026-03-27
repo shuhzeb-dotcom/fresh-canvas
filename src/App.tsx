@@ -2,41 +2,69 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
   const [activeProject, setActiveProject] = useState<number | null>(null);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState('');
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [joinUsHovered, setJoinUsHovered] = useState(false);
   const [shopHovered, setShopHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [catState, setCatState] = useState<'idle' | 'typing'>('idle');
   const catStateRef = useRef<'idle' | 'typing'>('idle');
-  const [descriptionLines, setDescriptionLines] = useState<string[]>(['this is a portfolio']);
+  const [descriptionLines, setDescriptionLines] = useState<string[]>(['an archive for all our stuff']);
   const [currentTypingLine, setCurrentTypingLine] = useState('');
   const isTypingRef = useRef(false);
   const currentTextRef = useRef('');
   const currentCharIndexRef = useRef(0);
   const currentTypingLineRef = useRef('');
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
   const projectListRef = useRef<HTMLDivElement | null>(null);
   const hasScrolledRef = useRef(false);
-  const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const portfolioItems = [
-    { name: 'about', description: 'Internet troll turned Creative Director' },
-    { name: 'work', description: 'Stuff I have done' },
-    { name: 'contact', description: 'Give me your money' },
+
+  const projects = [
+    { id: '001', name: 'TOMB OF YOUR LOVED ONES', description: 'You are a mosaic of everyone you have ever loved' },
+    { id: '002', name: 'BULLYING BRODY', description: 'Fame don\'t unlame you' },
+    { id: '003', name: '', description: 'click the button' },
+    { id: '004', name: 'PROJECT NEBULA', description: 'Exploring the depths of digital consciousness through interactive media.' },
+    { id: '005', name: 'PROJECT WHISPER', description: 'A haunting journey into the silence between sounds.' },
+    { id: '006', name: 'PROJECT MIRROR', description: 'Reflections of reality distorted through algorithmic perception.' },
+    { id: '007', name: 'PROJECT ECHO', description: 'Reverberations of forgotten memories in digital space.' },
+    { id: '008', name: 'PROJECT FLUX', description: 'Constant transformation through generative art systems.' },
+    { id: '009', name: 'PROJECT VOID', description: 'Embracing emptiness as a canvas for infinite possibility.' },
+    { id: '010', name: 'PROJECT PULSE', description: 'Rhythmic patterns that synchronize with human heartbeats.' },
+    { id: '011', name: 'PROJECT DRIFT', description: 'Wandering through landscapes of procedural generation.' },
+    { id: '012', name: 'PROJECT BLOOM', description: 'Organic growth patterns emerging from digital soil.' },
+    { id: '013', name: 'PROJECT STORM', description: 'Chaotic beauty captured in real-time weather simulations.' },
+    { id: '014', name: 'PROJECT CRYSTAL', description: 'Geometric perfection meets organic imperfection.' },
+    { id: '015', name: 'PROJECT SHADOW', description: 'Light and darkness dancing in perpetual motion.' },
+    { id: '016', name: 'PROJECT WAVE', description: 'Fluid dynamics translated into visual poetry.' },
+    { id: '017', name: 'PROJECT SPARK', description: 'Moments of inspiration captured in interactive installations.' },
+    { id: '018', name: 'PROJECT MAZE', description: 'Lost pathways leading to unexpected discoveries.' },
+    { id: '019', name: 'PROJECT FROST', description: 'Crystalline structures forming in digital winter.' },
+    { id: '020', name: 'PROJECT EMBER', description: 'Dying flames that refuse to be extinguished.' },
+    { id: '021', name: 'PROJECT TIDE', description: 'Oceanic movements controlled by lunar algorithms.' },
+    { id: '022', name: 'PROJECT PRISM', description: 'Light refracted through computational geometry.' },
+    { id: '023', name: 'PROJECT DUST', description: 'Particles of memory scattered across virtual landscapes.' },
+    { id: '024', name: 'PROJECT WIND', description: 'Invisible forces made visible through motion graphics.' },
+    { id: '025', name: 'PROJECT STONE', description: 'Ancient wisdom encoded in modern interfaces.' },
+    { id: '026', name: 'PROJECT FLAME', description: 'Passionate expressions burning through digital mediums.' },
+    { id: '027', name: 'PROJECT MIST', description: 'Ethereal atmospheres that blur reality and fiction.' },
+    { id: '028', name: 'PROJECT THORN', description: 'Beautiful dangers hidden in interactive experiences.' },
+    { id: '029', name: 'PROJECT SILK', description: 'Delicate threads weaving complex narrative structures.' },
+    { id: '030', name: 'PROJECT RUST', description: 'Decay and renewal in perpetual digital cycles.' },
+    { id: '031', name: 'PROJECT GLASS', description: 'Transparent barriers between observer and observed.' },
+    { id: '032', name: 'PROJECT CLAY', description: 'Malleable forms shaped by user interaction.' },
+    { id: '033', name: 'PROJECT SMOKE', description: 'Ephemeral traces of digital presence.' },
+    { id: '034', name: 'PROJECT PEARL', description: 'Hidden treasures discovered through exploration.' },
+    { id: '035', name: 'PROJECT THORN', description: 'Sharp contrasts in soft digital environments.' },
+    { id: '036', name: 'PROJECT MOSS', description: 'Slow growth patterns in accelerated time.' },
+    { id: '037', name: 'PROJECT STEEL', description: 'Industrial strength meets artistic sensitivity.' },
+    { id: '038', name: 'PROJECT HONEY', description: 'Sweet interactions that stick in memory.' },
+    { id: '039', name: 'PROJECT STORM', description: 'Turbulent emotions visualized through data.' },
+    { id: '040', name: 'PROJECT DAWN', description: 'New beginnings emerging from digital darkness.' },
   ];
-
-  const poems = [
-    { name: 'the', urduName: 'یہ', poem: 'The sun is god.' },
-    { name: 'world', urduName: 'دنیا', poem: 'World without wonder is a world that is dead.' },
-    { name: 'is', urduName: 'ہے', poem: 'Is it arrogant to tell me to grow up?' },
-    { name: 'our', urduName: 'ہماری', poem: 'Our sand castles are still here.' },
-    { name: 'playground', urduName: 'کھیل کا میدان', poem: 'Playgrounds are fountains of life.' },
-    { name: 'and', urduName: 'اور', poem: 'And so what if you choose your own path?' },
-    { name: 'we', urduName: 'ہم', poem: 'We will survive only together.' },
-    { name: 'must', urduName: 'چاہیے', poem: 'Must you always have something to say?' },
-    { name: 'play', urduName: 'کھیلنا', poem: 'Play time is the deepest meditation.' },
-  ];
-
-  const projects = [...portfolioItems, ...poems];
 
 
   useEffect(() => {
@@ -85,10 +113,17 @@ function App() {
         setActiveProject(closestProject);
 
         // Trigger typing animation on mobile
-        const text = closestProject < 3
-          ? projects[closestProject].description
-          : projects[closestProject].poem;
-        startTyping(text);
+        const description = projects[closestProject].description;
+        startTyping(description);
+
+        // Handle JOIN US hover state
+        if (closestProject === 2) {
+          setJoinUsHovered(true);
+          setHoveredProject(closestProject);
+        } else {
+          setJoinUsHovered(false);
+          setHoveredProject(null);
+        }
       }
     };
 
@@ -158,12 +193,17 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (joinUsHoverTimeoutRef.current) {
+        clearTimeout(joinUsHoverTimeoutRef.current);
+      }
+    };
+  }, []);
 
-  const handleProjectClick = (index: number, projectName: string) => {
-    if (index < 3) {
-      const slug = projectName.toLowerCase().replace(/\s+/g, '-');
-      window.location.href = `/${slug}`;
-    }
+  const handleProjectClick = (projectId: string, projectName: string) => {
+    const slug = projectName.toLowerCase().replace(/\s+/g, '-');
+    window.location.href = `/${projectId}-${slug}`;
   };
 
   const transitionToTyping = () => {
@@ -181,7 +221,7 @@ function App() {
   };
 
   const typeNextCharacter = () => {
-    const MAX_LINE_WIDTH = window.innerWidth < 640 ? 32 : window.innerWidth < 1024 ? 46 : window.innerWidth < 1280 ? 48 : 52;
+    const MAX_LINE_WIDTH = 45;
 
     if (currentCharIndexRef.current >= currentTextRef.current.length) {
       // Finished typing - just stop, leave the last line where it is
@@ -214,54 +254,45 @@ function App() {
     // Skip leading spaces after a line wrap
     if (prevLine === '' && currentTextRef.current[currentCharIndexRef.current] === ' ') {
       currentCharIndexRef.current++;
-      typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
+      typingTimeoutRef.current = setTimeout(typeNextCharacter, 15);
       return;
     }
 
-    // Check if we're at a space - if so, look ahead to see if the next word fits
-    if (currentTextRef.current[currentCharIndexRef.current] === ' ') {
-      // Find the next word
-      let wordStart = currentCharIndexRef.current + 1;
-      let wordEnd = wordStart;
+    const currentChar = currentTextRef.current[currentCharIndexRef.current];
 
-      while (wordEnd < currentTextRef.current.length && currentTextRef.current[wordEnd] !== ' ') {
-        wordEnd++;
+    // CRITICAL: Always check if the next word will fit BEFORE typing anything
+    // Don't skip this check - we need it every time!
+    if (prevLine.trim() !== '') {
+      // Find the next word (skip any immediate spaces first)
+      let lookAheadIndex = currentCharIndexRef.current;
+
+      // Skip spaces to find the next word
+      while (lookAheadIndex < currentTextRef.current.length && currentTextRef.current[lookAheadIndex] === ' ') {
+        lookAheadIndex++;
       }
 
-      const nextWord = currentTextRef.current.substring(wordStart, wordEnd);
-      const lineWithNextWord = prevLine + ' ' + nextWord;
-
-      // Check if next word alone would exceed limit
-      if (lineWithNextWord.length > MAX_LINE_WIDTH && prevLine.trim() !== '') {
-        // Wrap before this word
-        setDescriptionLines(lines => [...lines, prevLine.trim()]);
-        currentTypingLineRef.current = '';
-        setCurrentTypingLine('');
-        currentCharIndexRef.current++;
-        typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
-        return;
+      // Now find the end of that word
+      let wordEndIndex = lookAheadIndex;
+      while (wordEndIndex < currentTextRef.current.length && currentTextRef.current[wordEndIndex] !== ' ') {
+        wordEndIndex++;
       }
 
-      // If next word fits, check if there's a word after it
-      // Find the word after next
-      let secondWordStart = wordEnd + 1;
-      if (secondWordStart < currentTextRef.current.length && currentTextRef.current[wordEnd] === ' ') {
-        let secondWordEnd = secondWordStart;
-        while (secondWordEnd < currentTextRef.current.length && currentTextRef.current[secondWordEnd] !== ' ') {
-          secondWordEnd++;
-        }
+      // If there's a word ahead, check if it would fit on the current line
+      if (lookAheadIndex < currentTextRef.current.length) {
+        const upcomingWord = currentTextRef.current.substring(lookAheadIndex, wordEndIndex);
 
-        const secondWord = currentTextRef.current.substring(secondWordStart, secondWordEnd);
-        const lineWithBothWords = lineWithNextWord + ' ' + secondWord;
+        // Calculate what the line would look like with the space(s) + word
+        const spacesBeforeWord = currentTextRef.current.substring(currentCharIndexRef.current, lookAheadIndex);
+        const lineWithSpacesAndWord = prevLine + spacesBeforeWord + upcomingWord;
 
-        // If adding both words would exceed the limit, but we're past 70% full,
-        // wrap now to keep the two words together on the next line
-        if (lineWithBothWords.length > MAX_LINE_WIDTH && prevLine.length >= MAX_LINE_WIDTH * 0.7) {
+        // If adding this word (with its preceding space) would exceed the limit, wrap NOW
+        if (lineWithSpacesAndWord.length > MAX_LINE_WIDTH) {
           setDescriptionLines(lines => [...lines, prevLine.trim()]);
           currentTypingLineRef.current = '';
           setCurrentTypingLine('');
-          currentCharIndexRef.current++;
-          typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
+
+          // Don't consume a character, just schedule the next call
+          typingTimeoutRef.current = setTimeout(typeNextCharacter, 15);
           return;
         }
       }
@@ -304,19 +335,83 @@ function App() {
   const handleProjectHover = (index: number) => {
     setActiveProject(index);
 
-    const text = index < 3
-      ? projects[index].description
-      : projects[index].poem;
+    const description = projects[index].description;
 
-    startTyping(text);
+    // Start typing new description
+    startTyping(description);
+
+    if (index === 2) {
+      if (joinUsHoverTimeoutRef.current) {
+        clearTimeout(joinUsHoverTimeoutRef.current);
+      }
+      setJoinUsHovered(true);
+      setHoveredProject(index);
+    }
   };
 
   const handleProjectLeave = (index: number) => {
+    if (index === 2) {
+      // Add a small delay before hiding JOIN US to prevent blinking
+      if (joinUsHoverTimeoutRef.current) {
+        clearTimeout(joinUsHoverTimeoutRef.current);
+      }
+      joinUsHoverTimeoutRef.current = setTimeout(() => {
+        setJoinUsHovered(false);
+        setHoveredProject(null);
+      }, 100);
+    }
   };
+
+
+  const handleJoinUsClick = () => {
+    setShowEmailForm(true);
+  };
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle email submission here
+    console.log('Email submitted:', email);
+    setShowEmailForm(false);
+    setEmail('');
+  };
+
 
 
   return (
     <div className="h-screen bg-white font-mono overflow-hidden">
+      {/* Email Form Modal */}
+      {showEmailForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg max-w-sm sm:max-w-md w-full mx-4">
+            <h2 className="text-lg sm:text-xl font-mono mb-4">JOIN US</h2>
+            <form onSubmit={handleEmailSubmit}>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full p-2 sm:p-3 border border-gray-300 rounded mb-4 font-mono text-sm sm:text-base"
+                required
+              />
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  className="flex-1 bg-black text-white p-2 sm:p-3 rounded font-mono hover:bg-gray-800 transition-colors text-sm sm:text-base"
+                >
+                  SUBMIT
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowEmailForm(false)}
+                  className="flex-1 border border-gray-300 p-2 sm:p-3 rounded font-mono hover:bg-gray-100 transition-colors text-sm sm:text-base"
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <div className="h-full flex items-center justify-center relative">
         <div className="fixed inset-0 pointer-events-none z-20">
@@ -325,19 +420,19 @@ function App() {
         </div>
 
         {/* Description container - centered left of project list on desktop, centered on mobile */}
-        <div className="fixed left-[5%] sm:left-1/2 bottom-[55%] z-10 w-[180px] sm:w-[220px] md:w-[260px] lg:w-[280px] xl:w-[320px] h-[60vh] overflow-hidden sm:translate-x-[-280px] md:translate-x-[-320px] lg:translate-x-[-340px] xl:translate-x-[-380px]">
+        <div className="fixed left-[5%] sm:left-1/2 bottom-[55%] z-10 w-[180px] sm:w-[240px] h-[60vh] overflow-hidden sm:translate-x-[-280px]">
           <div className="flex flex-col items-start justify-end h-full" style={{ lineHeight: '1.5' }}>
             {descriptionLines.map((line, index) => (
               <div
                 key={`${index}-${line}`}
-                className="text-black text-xs sm:text-sm md:text-sm lg:text-base text-left font-jetbrains-mono"
+                className="text-black text-xs sm:text-base text-left font-jetbrains-mono"
               >
                 {line}
               </div>
             ))}
             {currentTypingLine && (
               <div
-                className="text-black text-xs sm:text-sm md:text-sm lg:text-base text-left font-jetbrains-mono"
+                className="text-black text-xs sm:text-base text-left font-jetbrains-mono"
               >
                 {currentTypingLine}
               </div>
@@ -384,18 +479,25 @@ function App() {
               className="h-screen overflow-y-scroll scrollbar-hide relative z-10 pointer-events-none"
               style={{ paddingTop: '65vh' }}
             >
-              <div className="space-y-1 sm:space-y-2 pb-[50vh]">
+              <div className="space-y-1 sm:space-y-2 pb-[32rem] md:pb-[32rem] lg:pb-[40rem] xl:pb-[48rem] 2xl:pb-[56rem]">
                 {projects.map((project, index) => (
-                  <div key={project.name}>
-                    <div className="flex items-start">
-                      <div
-                        ref={el => projectRefs.current[index] = el}
-                        className="cursor-pointer flex-1 pointer-events-auto group"
-                        onClick={() => handleProjectClick(index, project.name)}
-                        onMouseEnter={() => handleProjectHover(index)}
-                        onMouseLeave={() => handleProjectLeave(index)}
-                      >
-                        <div className="text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-roboto-mono break-words pointer-events-none pt-1 sm:pt-2">
+                  <div className="flex items-start" key={project.id}>
+                    <div
+                      className="w-8 sm:w-10 md:w-12 xl:w-16 flex-shrink-0 text-black text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-jetbrains-mono pt-1.5 sm:pt-2.5 pointer-events-none"
+                      style={{ WebkitTextStroke: '1px black' }}
+                    >
+                      {project.id}
+                    </div>
+                    
+                    <div
+                      ref={el => projectRefs.current[index] = el}
+                      className="cursor-pointer flex-1 pointer-events-auto"
+                      onClick={() => index === 2 ? handleJoinUsClick() : handleProjectClick(project.id, project.name)}
+                      onMouseEnter={() => handleProjectHover(index)}
+                      onMouseLeave={() => handleProjectLeave(index)}
+                    >
+                      <div className="text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-roboto-mono break-words pointer-events-none pt-1 sm:pt-2">
+                        {index !== 2 ? (
                           <span
                             className={`inline-block px-1 py-0.5 ${
                               activeProject === index
@@ -403,20 +505,19 @@ function App() {
                                 : 'text-black'
                             }`}
                           >
-                            {index >= 3 ? (
-                              activeProject === index ? (
-                                project.name
-                              ) : (
-                                <>
-                                  <span className="group-hover:hidden">{(project as any).urduName}</span>
-                                  <span className="hidden group-hover:inline">{project.name}</span>
-                                </>
-                              )
-                            ) : (
-                              project.name
-                            )}
+                            {project.name}
                           </span>
-                        </div>
+                        ) : (
+                          <span
+                            className={`inline-block px-1 py-0.5 ${
+                              activeProject === index
+                                ? 'bg-[#2414ff] text-white font-bold'
+                                : 'text-black'
+                            }`}
+                          >
+                            {joinUsHovered && hoveredProject === index ? 'JOIN US' : '---'}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

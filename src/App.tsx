@@ -177,7 +177,7 @@ function App() {
   };
 
   const typeNextCharacter = () => {
-    const MAX_LINE_WIDTH = window.innerWidth < 640 ? 32 : window.innerWidth < 1024 ? 38 : window.innerWidth < 1280 ? 42 : 48;
+    const MAX_LINE_WIDTH = window.innerWidth < 640 ? 32 : window.innerWidth < 1024 ? 46 : window.innerWidth < 1280 ? 48 : 52;
 
     if (currentCharIndexRef.current >= currentTextRef.current.length) {
       // Finished typing - just stop, leave the last line where it is
@@ -250,9 +250,9 @@ function App() {
         const secondWord = currentTextRef.current.substring(secondWordStart, secondWordEnd);
         const lineWithBothWords = lineWithNextWord + ' ' + secondWord;
 
-        // If adding both words would exceed the limit, but we're past 60% full,
+        // If adding both words would exceed the limit, but we're past 70% full,
         // wrap now to keep the two words together on the next line
-        if (lineWithBothWords.length > MAX_LINE_WIDTH && prevLine.length >= MAX_LINE_WIDTH * 0.6) {
+        if (lineWithBothWords.length > MAX_LINE_WIDTH && prevLine.length >= MAX_LINE_WIDTH * 0.7) {
           setDescriptionLines(lines => [...lines, prevLine.trim()]);
           currentTypingLineRef.current = '';
           setCurrentTypingLine('');

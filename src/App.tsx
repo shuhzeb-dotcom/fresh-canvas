@@ -177,7 +177,7 @@ function App() {
   };
 
   const typeNextCharacter = () => {
-    const MAX_LINE_WIDTH = 45;
+    const MAX_LINE_WIDTH = window.innerWidth < 640 ? 28 : window.innerWidth < 1024 ? 35 : window.innerWidth < 1280 ? 38 : 45;
 
     if (currentCharIndexRef.current >= currentTextRef.current.length) {
       // Finished typing - just stop, leave the last line where it is
@@ -312,19 +312,19 @@ function App() {
         </div>
 
         {/* Description container - centered left of project list on desktop, centered on mobile */}
-        <div className="fixed left-[5%] sm:left-1/2 bottom-[55%] z-10 w-[180px] sm:w-[240px] h-[60vh] overflow-hidden sm:translate-x-[-280px]">
+        <div className="fixed left-[5%] sm:left-1/2 bottom-[55%] z-10 w-[180px] sm:w-[220px] md:w-[260px] lg:w-[280px] xl:w-[320px] h-[60vh] overflow-hidden sm:translate-x-[-280px] md:translate-x-[-320px] lg:translate-x-[-340px] xl:translate-x-[-380px]">
           <div className="flex flex-col items-start justify-end h-full" style={{ lineHeight: '1.5' }}>
             {descriptionLines.map((line, index) => (
               <div
                 key={`${index}-${line}`}
-                className="text-black text-xs sm:text-base text-left font-jetbrains-mono"
+                className="text-black text-xs sm:text-sm md:text-sm lg:text-base text-left font-jetbrains-mono"
               >
                 {line}
               </div>
             ))}
             {currentTypingLine && (
               <div
-                className="text-black text-xs sm:text-base text-left font-jetbrains-mono"
+                className="text-black text-xs sm:text-sm md:text-sm lg:text-base text-left font-jetbrains-mono"
               >
                 {currentTypingLine}
               </div>
@@ -375,7 +375,7 @@ function App() {
                 {projects.map((project, index) => (
                   <div key={project.name}>
                     {index === 3 && (
-                      <div className="my-6 sm:my-8 text-black text-4xl sm:text-5xl">★</div>
+                      <div className="my-3 sm:my-4 text-black text-2xl sm:text-3xl">★</div>
                     )}
                     <div className="flex items-start">
                       <div

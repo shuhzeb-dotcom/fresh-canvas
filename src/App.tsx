@@ -19,17 +19,17 @@ function App() {
   const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const portfolioItems = [
-    { id: '001', name: 'About', description: 'Creative developer exploring the intersection of art and technology. Building experiences that challenge perception and inspire connection.' },
-    { id: '002', name: 'Work', description: 'A collection of projects spanning interactive installations, digital art, and experimental interfaces. Each piece tells a story of innovation and creative exploration.' },
-    { id: '003', name: 'Contact', description: 'Reach out to collaborate or discuss ideas. I\'m always interested in new projects and creative partnerships that push boundaries.' },
+    { id: '001', name: 'about', description: 'creative developer exploring the intersection of art and technology. building experiences that challenge perception and inspire connection.' },
+    { id: '002', name: 'work', description: 'a collection of projects spanning interactive installations, digital art, and experimental interfaces. each piece tells a story of innovation and creative exploration.' },
+    { id: '003', name: 'contact', description: 'reach out to collaborate or discuss ideas. i\'m always interested in new projects and creative partnerships that push boundaries.' },
   ];
 
   const poems = [
-    { name: 'Dream', poem: 'Pixels dance in moonlight whispers, shadows stretch across screens. Silent echoes of forgotten songs play in digital dreams. Where code meets consciousness, new worlds emerge. Infinite possibilities written in the language of light.' },
-    { name: 'Flow', poem: 'Rhythm pulses through the interface, each click a heartbeat. Motion follows thought, creating pathways where none existed. The user and the digital become one, flowing together in seamless harmony. Time dissolves in this moment of perfect interaction.' },
-    { name: 'Echo', poem: 'Your input creates ripples across the surface. Each action reverberates through layers of code and design. Nothing is lost, only transformed. The echo of your presence lingers in the spaces between pixels.' },
-    { name: 'Void', poem: 'In the darkness between screens, possibilities gather. Emptiness becomes canvas. The void is not absence, but potential waiting to be filled. We create light from nothing, meaning from code.' },
-    { name: 'Storm', poem: 'Chaos beautiful and terrible. Data cascades like rain on windows. Patterns emerge from turbulence. This is where growth happens, where systems transform. The storm passes, leaving clarity in its wake.' },
+    { name: 'dream', poem: 'pixels dance in moonlight whispers, shadows stretch across screens. silent echoes of forgotten songs play in digital dreams. where code meets consciousness, new worlds emerge. infinite possibilities written in the language of light.' },
+    { name: 'flow', poem: 'rhythm pulses through the interface, each click a heartbeat. motion follows thought, creating pathways where none existed. the user and the digital become one, flowing together in seamless harmony. time dissolves in this moment of perfect interaction.' },
+    { name: 'echo', poem: 'your input creates ripples across the surface. each action reverberates through layers of code and design. nothing is lost, only transformed. the echo of your presence lingers in the spaces between pixels.' },
+    { name: 'void', poem: 'in the darkness between screens, possibilities gather. emptiness becomes canvas. the void is not absence, but potential waiting to be filled. we create light from nothing, meaning from code.' },
+    { name: 'storm', poem: 'chaos beautiful and terrible. data cascades like rain on windows. patterns emerge from turbulence. this is where growth happens, where systems transform. the storm passes, leaving clarity in its wake.' },
   ];
 
   const projects = [...portfolioItems, ...poems];

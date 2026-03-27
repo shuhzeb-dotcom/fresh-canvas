@@ -384,7 +384,7 @@ function App() {
               className="h-screen overflow-y-scroll scrollbar-hide relative z-10 pointer-events-none"
               style={{ paddingTop: '65vh' }}
             >
-              <div className="space-y-1 sm:space-y-2 pb-[20vh]">
+              <div className="space-y-1 sm:space-y-2 pb-[50vh]">
                 {projects.map((project, index) => (
                   <div key={project.name}>
                     <div className="flex items-start">

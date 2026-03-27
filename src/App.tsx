@@ -25,11 +25,15 @@ function App() {
   ];
 
   const poems = [
-    { name: 'dream', urduName: 'خواب', poem: 'Pixels dance in moonlight whispers.' },
-    { name: 'flow', urduName: 'بہاؤ', poem: 'Rhythm pulses through the interface.' },
-    { name: 'echo', urduName: 'گونج', poem: 'Your input creates ripples across the surface.' },
-    { name: 'void', urduName: 'خلا', poem: 'In the darkness, possibilities gather.' },
-    { name: 'storm', urduName: 'طوفان', poem: 'Chaos beautiful and terrible.' },
+    { name: 'the', urduName: 'یہ', poem: 'In the beginning, there was a spark—a single thought that refused to be contained.' },
+    { name: 'world', urduName: 'دنیا', poem: 'Vast and endless, full of wonder and possibility, waiting to be explored.' },
+    { name: 'is', urduName: 'ہے', poem: 'Present, alive, breathing with stories yet untold and dreams yet undreamed.' },
+    { name: 'our', urduName: 'ہماری', poem: 'Belonging to us all, a shared canvas where every soul leaves its mark.' },
+    { name: 'playground', urduName: 'کھیل کا میدان', poem: 'A space of joy and discovery, where rules bend and imagination soars free.' },
+    { name: 'and', urduName: 'اور', poem: 'Connecting what was with what could be, bridging the gap between dream and reality.' },
+    { name: 'we', urduName: 'ہم', poem: 'Together, as one collective heartbeat, creating ripples that become waves of change.' },
+    { name: 'must', urduName: 'چاہیے', poem: 'Not bound by obligation but driven by purpose, a calling that echoes in our bones.' },
+    { name: 'play', urduName: 'کھیلنا', poem: 'With abandon and courage, building castles in the air and making them real.' },
   ];
 
   const projects = [...portfolioItems, ...poems];

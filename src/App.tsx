@@ -25,11 +25,11 @@ function App() {
   ];
 
   const poems = [
-    { name: 'dream', arabicName: 'حلم', poem: 'Pixels dance in moonlight whispers.' },
-    { name: 'flow', arabicName: 'تدفق', poem: 'Rhythm pulses through the interface.' },
-    { name: 'echo', arabicName: 'صدى', poem: 'Your input creates ripples across the surface.' },
-    { name: 'void', arabicName: 'فراغ', poem: 'In the darkness, possibilities gather.' },
-    { name: 'storm', arabicName: 'عاصفة', poem: 'Chaos beautiful and terrible.' },
+    { name: 'dream', urduName: 'خواب', poem: 'Pixels dance in moonlight whispers.' },
+    { name: 'flow', urduName: 'بہاؤ', poem: 'Rhythm pulses through the interface.' },
+    { name: 'echo', urduName: 'گونج', poem: 'Your input creates ripples across the surface.' },
+    { name: 'void', urduName: 'خلا', poem: 'In the darkness, possibilities gather.' },
+    { name: 'storm', urduName: 'طوفان', poem: 'Chaos beautiful and terrible.' },
   ];
 
   const projects = [...portfolioItems, ...poems];
@@ -403,10 +403,14 @@ function App() {
                             }`}
                           >
                             {index >= 3 ? (
-                              <>
-                                <span className="group-hover:hidden">{(project as any).arabicName}</span>
-                                <span className="hidden group-hover:inline">{project.name}</span>
-                              </>
+                              activeProject === index ? (
+                                project.name
+                              ) : (
+                                <>
+                                  <span className="group-hover:hidden">{(project as any).urduName}</span>
+                                  <span className="hidden group-hover:inline">{project.name}</span>
+                                </>
+                              )
                             ) : (
                               project.name
                             )}

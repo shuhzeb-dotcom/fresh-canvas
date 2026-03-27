@@ -317,14 +317,22 @@ function App() {
             {descriptionLines.map((line, index) => (
               <div
                 key={`${index}-${line}`}
-                className="text-black text-xs sm:text-base text-left font-jetbrains-mono"
+                className={`text-xs sm:text-base text-left font-jetbrains-mono ${
+                  activeProject !== null && activeProject >= 3
+                    ? 'text-gray-400'
+                    : 'text-black'
+                }`}
               >
                 {line}
               </div>
             ))}
             {currentTypingLine && (
               <div
-                className="text-black text-xs sm:text-base text-left font-jetbrains-mono"
+                className={`text-xs sm:text-base text-left font-jetbrains-mono ${
+                  activeProject !== null && activeProject >= 3
+                    ? 'text-gray-400'
+                    : 'text-black'
+                }`}
               >
                 {currentTypingLine}
               </div>
@@ -393,7 +401,9 @@ function App() {
                           className={`inline-block px-1 py-0.5 ${
                             activeProject === index
                               ? 'bg-[#2414ff] text-white font-bold'
-                              : 'text-black'
+                              : index >= 3
+                                ? 'text-gray-400'
+                                : 'text-black'
                           }`}
                         >
                           {project.name}

@@ -17,16 +17,14 @@ function App() {
   const projectListRef = useRef<HTMLDivElement | null>(null);
   const hasScrolledRef = useRef(false);
   const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editValue, setEditValue] = useState('');
 
-  const [portfolioItems, setPortfolioItems] = useState([
+  const portfolioItems = [
     { name: 'about', description: 'Creative developer exploring art and technology.' },
     { name: 'work', description: 'Projects spanning installations and interfaces.' },
     { name: 'contact', description: 'Reach out to collaborate on new ideas.' },
-  ]);
+  ];
 
-  const [poems, setPoems] = useState([
+  const poems = [
     { name: 'the', urduName: 'یہ', poem: 'In the beginning, there was a spark—a single thought that refused to be contained.' },
     { name: 'world', urduName: 'دنیا', poem: 'Vast and endless, full of wonder and possibility, waiting to be explored.' },
     { name: 'is', urduName: 'ہے', poem: 'Present, alive, breathing with stories yet untold and dreams yet undreamed.' },
@@ -36,7 +34,7 @@ function App() {
     { name: 'we', urduName: 'ہم', poem: 'Together, as one collective heartbeat, creating ripples that become waves of change.' },
     { name: 'must', urduName: 'چاہیے', poem: 'Not bound by obligation but driven by purpose, a calling that echoes in our bones.' },
     { name: 'play', urduName: 'کھیلنا', poem: 'With abandon and courage, building castles in the air and making them real.' },
-  ]);
+  ];
 
   const projects = [...portfolioItems, ...poems];
 
@@ -316,41 +314,6 @@ function App() {
   const handleProjectLeave = (index: number) => {
   };
 
-  const handleDescriptionDoubleClick = (index: number) => {
-    const text = index < 3
-      ? projects[index].description
-      : projects[index].poem;
-
-    setEditingIndex(index);
-    setEditValue(text);
-  };
-
-  const handleEditSave = () => {
-    if (editingIndex === null) return;
-
-    if (editingIndex < 3) {
-      setPortfolioItems(prev => prev.map((item, i) =>
-        i === editingIndex ? { ...item, description: editValue } : item
-      ));
-    } else {
-      setPoems(prev => prev.map((item, i) =>
-        i === editingIndex - 3 ? { ...item, poem: editValue } : item
-      ));
-    }
-
-    setEditingIndex(null);
-    setEditValue('');
-
-    if (activeProject === editingIndex) {
-      startTyping(editValue);
-    }
-  };
-
-  const handleEditCancel = () => {
-    setEditingIndex(null);
-    setEditValue('');
-  };
-
 
   return (
     <div className="h-screen bg-white font-mono overflow-hidden">
@@ -429,7 +392,6 @@ function App() {
                         ref={el => projectRefs.current[index] = el}
                         className="cursor-pointer flex-1 pointer-events-auto group"
                         onClick={() => handleProjectClick(index, project.name)}
-                        onDoubleClick={() => handleDescriptionDoubleClick(index)}
                         onMouseEnter={() => handleProjectHover(index)}
                         onMouseLeave={() => handleProjectLeave(index)}
                       >
@@ -476,36 +438,6 @@ function App() {
             />
           </div>
         </div>
-
-        {editingIndex !== null && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
-              <h3 className="text-lg font-bold mb-4">
-                Edit {editingIndex < 3 ? 'Description' : 'Poem'} for "{projects[editingIndex].name}"
-              </h3>
-              <textarea
-                value={editValue}
-                onChange={(e) => setEditValue(e.target.value)}
-                className="w-full h-40 p-3 border border-gray-300 rounded font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                autoFocus
-              />
-              <div className="flex gap-3 mt-4 justify-end">
-                <button
-                  onClick={handleEditCancel}
-                  className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleEditSave}
-                  className="px-4 py-2 bg-[#2414ff] text-white rounded hover:bg-[#1d10cc] transition-colors"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
       </div>
     </div>

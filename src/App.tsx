@@ -210,47 +210,34 @@ function App() {
     // Skip leading spaces after a line wrap
     if (prevLine === '' && currentTextRef.current[currentCharIndexRef.current] === ' ') {
       currentCharIndexRef.current++;
-      typingTimeoutRef.current = setTimeout(typeNextCharacter, 15);
+      typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
       return;
     }
 
-    const currentChar = currentTextRef.current[currentCharIndexRef.current];
+    // Check if we're at a space - if so, look ahead to see if the next word fits
+    if (currentTextRef.current[currentCharIndexRef.current] === ' ') {
+      // Find the next word
+      let wordStart = currentCharIndexRef.current + 1;
+      let wordEnd = wordStart;
 
-    // CRITICAL: Always check if the next word will fit BEFORE typing anything
-    // Don't skip this check - we need it every time!
-    if (prevLine.trim() !== '') {
-      // Find the next word (skip any immediate spaces first)
-      let lookAheadIndex = currentCharIndexRef.current;
-
-      // Skip spaces to find the next word
-      while (lookAheadIndex < currentTextRef.current.length && currentTextRef.current[lookAheadIndex] === ' ') {
-        lookAheadIndex++;
+      while (wordEnd < currentTextRef.current.length && currentTextRef.current[wordEnd] !== ' ') {
+        wordEnd++;
       }
 
-      // Now find the end of that word
-      let wordEndIndex = lookAheadIndex;
-      while (wordEndIndex < currentTextRef.current.length && currentTextRef.current[wordEndIndex] !== ' ') {
-        wordEndIndex++;
-      }
+      const nextWord = currentTextRef.current.substring(wordStart, wordEnd);
+      const lineWithSpaceAndWord = prevLine + ' ' + nextWord;
 
-      // If there's a word ahead, check if it would fit on the current line
-      if (lookAheadIndex < currentTextRef.current.length) {
-        const upcomingWord = currentTextRef.current.substring(lookAheadIndex, wordEndIndex);
+      // If the word won't fit, wrap now BEFORE typing the space
+      if (lineWithSpaceAndWord.length > MAX_LINE_WIDTH && prevLine.trim() !== '') {
+        setDescriptionLines(lines => [...lines, prevLine.trim()]);
+        currentTypingLineRef.current = '';
+        setCurrentTypingLine('');
 
-        // Calculate what the line would look like with the space(s) + word
-        const spacesBeforeWord = currentTextRef.current.substring(currentCharIndexRef.current, lookAheadIndex);
-        const lineWithSpacesAndWord = prevLine + spacesBeforeWord + upcomingWord;
+        // Skip the space
+        currentCharIndexRef.current++;
 
-        // If adding this word (with its preceding space) would exceed the limit, wrap NOW
-        if (lineWithSpacesAndWord.length > MAX_LINE_WIDTH) {
-          setDescriptionLines(lines => [...lines, prevLine.trim()]);
-          currentTypingLineRef.current = '';
-          setCurrentTypingLine('');
-
-          // Don't consume a character, just schedule the next call
-          typingTimeoutRef.current = setTimeout(typeNextCharacter, 15);
-          return;
-        }
+        typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
+        return;
       }
     }
 

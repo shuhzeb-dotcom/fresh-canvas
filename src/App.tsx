@@ -225,11 +225,11 @@ function App() {
       }
 
       const nextWord = currentTextRef.current.substring(wordStart, wordEnd);
-      const lineWithSpaceAndWord = prevLine.trimEnd() + ' ' + nextWord;
+      const lineWithSpaceAndWord = prevLine + ' ' + nextWord;
 
       console.log('Check wrap:', {
         prevLine: `"${prevLine}"`,
-        prevLineLength: prevLine.trimEnd().length,
+        prevLineLength: prevLine.length,
         nextWord: `"${nextWord}"`,
         testLine: `"${lineWithSpaceAndWord}"`,
         testLength: lineWithSpaceAndWord.length,

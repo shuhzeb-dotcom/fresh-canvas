@@ -227,8 +227,19 @@ function App() {
       const nextWord = currentTextRef.current.substring(wordStart, wordEnd);
       const lineWithSpaceAndWord = prevLine.trimEnd() + ' ' + nextWord;
 
+      console.log('Check wrap:', {
+        prevLine: `"${prevLine}"`,
+        prevLineLength: prevLine.trimEnd().length,
+        nextWord: `"${nextWord}"`,
+        testLine: `"${lineWithSpaceAndWord}"`,
+        testLength: lineWithSpaceAndWord.length,
+        maxWidth: MAX_LINE_WIDTH,
+        willWrap: lineWithSpaceAndWord.length >= MAX_LINE_WIDTH
+      });
+
       // If the word won't fit, wrap now BEFORE typing the space
       if (lineWithSpaceAndWord.length >= MAX_LINE_WIDTH && prevLine.trim() !== '') {
+        console.log('WRAPPING NOW');
         setDescriptionLines(lines => [...lines, prevLine.trim()]);
         currentTypingLineRef.current = '';
         setCurrentTypingLine('');

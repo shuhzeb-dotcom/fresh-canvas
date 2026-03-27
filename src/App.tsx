@@ -2,69 +2,37 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
   const [activeProject, setActiveProject] = useState<number | null>(null);
-  const [showEmailForm, setShowEmailForm] = useState(false);
-  const [email, setEmail] = useState('');
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [joinUsHovered, setJoinUsHovered] = useState(false);
   const [shopHovered, setShopHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [catState, setCatState] = useState<'idle' | 'typing'>('idle');
   const catStateRef = useRef<'idle' | 'typing'>('idle');
-  const [descriptionLines, setDescriptionLines] = useState<string[]>(['an archive for all our stuff']);
+  const [descriptionLines, setDescriptionLines] = useState<string[]>(['this is a portfolio']);
   const [currentTypingLine, setCurrentTypingLine] = useState('');
   const isTypingRef = useRef(false);
   const currentTextRef = useRef('');
   const currentCharIndexRef = useRef(0);
   const currentTypingLineRef = useRef('');
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
   const projectListRef = useRef<HTMLDivElement | null>(null);
   const hasScrolledRef = useRef(false);
+  const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-
-  const projects = [
-    { id: '001', name: 'TOMB OF YOUR LOVED ONES', description: 'You are a mosaic of everyone you have ever loved' },
-    { id: '002', name: 'BULLYING BRODY', description: 'Fame don\'t unlame you' },
-    { id: '003', name: '', description: 'click the button' },
-    { id: '004', name: 'PROJECT NEBULA', description: 'Exploring the depths of digital consciousness through interactive media.' },
-    { id: '005', name: 'PROJECT WHISPER', description: 'A haunting journey into the silence between sounds.' },
-    { id: '006', name: 'PROJECT MIRROR', description: 'Reflections of reality distorted through algorithmic perception.' },
-    { id: '007', name: 'PROJECT ECHO', description: 'Reverberations of forgotten memories in digital space.' },
-    { id: '008', name: 'PROJECT FLUX', description: 'Constant transformation through generative art systems.' },
-    { id: '009', name: 'PROJECT VOID', description: 'Embracing emptiness as a canvas for infinite possibility.' },
-    { id: '010', name: 'PROJECT PULSE', description: 'Rhythmic patterns that synchronize with human heartbeats.' },
-    { id: '011', name: 'PROJECT DRIFT', description: 'Wandering through landscapes of procedural generation.' },
-    { id: '012', name: 'PROJECT BLOOM', description: 'Organic growth patterns emerging from digital soil.' },
-    { id: '013', name: 'PROJECT STORM', description: 'Chaotic beauty captured in real-time weather simulations.' },
-    { id: '014', name: 'PROJECT CRYSTAL', description: 'Geometric perfection meets organic imperfection.' },
-    { id: '015', name: 'PROJECT SHADOW', description: 'Light and darkness dancing in perpetual motion.' },
-    { id: '016', name: 'PROJECT WAVE', description: 'Fluid dynamics translated into visual poetry.' },
-    { id: '017', name: 'PROJECT SPARK', description: 'Moments of inspiration captured in interactive installations.' },
-    { id: '018', name: 'PROJECT MAZE', description: 'Lost pathways leading to unexpected discoveries.' },
-    { id: '019', name: 'PROJECT FROST', description: 'Crystalline structures forming in digital winter.' },
-    { id: '020', name: 'PROJECT EMBER', description: 'Dying flames that refuse to be extinguished.' },
-    { id: '021', name: 'PROJECT TIDE', description: 'Oceanic movements controlled by lunar algorithms.' },
-    { id: '022', name: 'PROJECT PRISM', description: 'Light refracted through computational geometry.' },
-    { id: '023', name: 'PROJECT DUST', description: 'Particles of memory scattered across virtual landscapes.' },
-    { id: '024', name: 'PROJECT WIND', description: 'Invisible forces made visible through motion graphics.' },
-    { id: '025', name: 'PROJECT STONE', description: 'Ancient wisdom encoded in modern interfaces.' },
-    { id: '026', name: 'PROJECT FLAME', description: 'Passionate expressions burning through digital mediums.' },
-    { id: '027', name: 'PROJECT MIST', description: 'Ethereal atmospheres that blur reality and fiction.' },
-    { id: '028', name: 'PROJECT THORN', description: 'Beautiful dangers hidden in interactive experiences.' },
-    { id: '029', name: 'PROJECT SILK', description: 'Delicate threads weaving complex narrative structures.' },
-    { id: '030', name: 'PROJECT RUST', description: 'Decay and renewal in perpetual digital cycles.' },
-    { id: '031', name: 'PROJECT GLASS', description: 'Transparent barriers between observer and observed.' },
-    { id: '032', name: 'PROJECT CLAY', description: 'Malleable forms shaped by user interaction.' },
-    { id: '033', name: 'PROJECT SMOKE', description: 'Ephemeral traces of digital presence.' },
-    { id: '034', name: 'PROJECT PEARL', description: 'Hidden treasures discovered through exploration.' },
-    { id: '035', name: 'PROJECT THORN', description: 'Sharp contrasts in soft digital environments.' },
-    { id: '036', name: 'PROJECT MOSS', description: 'Slow growth patterns in accelerated time.' },
-    { id: '037', name: 'PROJECT STEEL', description: 'Industrial strength meets artistic sensitivity.' },
-    { id: '038', name: 'PROJECT HONEY', description: 'Sweet interactions that stick in memory.' },
-    { id: '039', name: 'PROJECT STORM', description: 'Turbulent emotions visualized through data.' },
-    { id: '040', name: 'PROJECT DAWN', description: 'New beginnings emerging from digital darkness.' },
+  const portfolioItems = [
+    { id: '001', name: 'About', description: 'Creative developer exploring the intersection of art and technology. Building experiences that challenge perception and inspire connection.' },
+    { id: '002', name: 'Work', description: 'A collection of projects spanning interactive installations, digital art, and experimental interfaces. Each piece tells a story of innovation and creative exploration.' },
+    { id: '003', name: 'Contact', description: 'Reach out to collaborate or discuss ideas. I\'m always interested in new projects and creative partnerships that push boundaries.' },
   ];
+
+  const poems = [
+    { name: 'Dream', poem: 'Pixels dance in moonlight whispers, shadows stretch across screens. Silent echoes of forgotten songs play in digital dreams. Where code meets consciousness, new worlds emerge. Infinite possibilities written in the language of light.' },
+    { name: 'Flow', poem: 'Rhythm pulses through the interface, each click a heartbeat. Motion follows thought, creating pathways where none existed. The user and the digital become one, flowing together in seamless harmony. Time dissolves in this moment of perfect interaction.' },
+    { name: 'Echo', poem: 'Your input creates ripples across the surface. Each action reverberates through layers of code and design. Nothing is lost, only transformed. The echo of your presence lingers in the spaces between pixels.' },
+    { name: 'Void', poem: 'In the darkness between screens, possibilities gather. Emptiness becomes canvas. The void is not absence, but potential waiting to be filled. We create light from nothing, meaning from code.' },
+    { name: 'Storm', poem: 'Chaos beautiful and terrible. Data cascades like rain on windows. Patterns emerge from turbulence. This is where growth happens, where systems transform. The storm passes, leaving clarity in its wake.' },
+  ];
+
+  const projects = [...portfolioItems, ...poems];
 
 
   useEffect(() => {
@@ -113,17 +81,10 @@ function App() {
         setActiveProject(closestProject);
 
         // Trigger typing animation on mobile
-        const description = projects[closestProject].description;
-        startTyping(description);
-
-        // Handle JOIN US hover state
-        if (closestProject === 2) {
-          setJoinUsHovered(true);
-          setHoveredProject(closestProject);
-        } else {
-          setJoinUsHovered(false);
-          setHoveredProject(null);
-        }
+        const text = closestProject < 3
+          ? projects[closestProject].description
+          : projects[closestProject].poem;
+        startTyping(text);
       }
     };
 
@@ -193,17 +154,12 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (joinUsHoverTimeoutRef.current) {
-        clearTimeout(joinUsHoverTimeoutRef.current);
-      }
-    };
-  }, []);
 
-  const handleProjectClick = (projectId: string, projectName: string) => {
-    const slug = projectName.toLowerCase().replace(/\s+/g, '-');
-    window.location.href = `/${projectId}-${slug}`;
+  const handleProjectClick = (index: number, projectName: string) => {
+    if (index < 3) {
+      const slug = projectName.toLowerCase().replace(/\s+/g, '-');
+      window.location.href = `/${slug}`;
+    }
   };
 
   const transitionToTyping = () => {
@@ -335,83 +291,19 @@ function App() {
   const handleProjectHover = (index: number) => {
     setActiveProject(index);
 
-    const description = projects[index].description;
+    const text = index < 3
+      ? projects[index].description
+      : projects[index].poem;
 
-    // Start typing new description
-    startTyping(description);
-
-    if (index === 2) {
-      if (joinUsHoverTimeoutRef.current) {
-        clearTimeout(joinUsHoverTimeoutRef.current);
-      }
-      setJoinUsHovered(true);
-      setHoveredProject(index);
-    }
+    startTyping(text);
   };
 
   const handleProjectLeave = (index: number) => {
-    if (index === 2) {
-      // Add a small delay before hiding JOIN US to prevent blinking
-      if (joinUsHoverTimeoutRef.current) {
-        clearTimeout(joinUsHoverTimeoutRef.current);
-      }
-      joinUsHoverTimeoutRef.current = setTimeout(() => {
-        setJoinUsHovered(false);
-        setHoveredProject(null);
-      }, 100);
-    }
   };
-
-
-  const handleJoinUsClick = () => {
-    setShowEmailForm(true);
-  };
-
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle email submission here
-    console.log('Email submitted:', email);
-    setShowEmailForm(false);
-    setEmail('');
-  };
-
 
 
   return (
     <div className="h-screen bg-white font-mono overflow-hidden">
-      {/* Email Form Modal */}
-      {showEmailForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg max-w-sm sm:max-w-md w-full mx-4">
-            <h2 className="text-lg sm:text-xl font-mono mb-4">JOIN US</h2>
-            <form onSubmit={handleEmailSubmit}>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="w-full p-2 sm:p-3 border border-gray-300 rounded mb-4 font-mono text-sm sm:text-base"
-                required
-              />
-              <div className="flex gap-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-black text-white p-2 sm:p-3 rounded font-mono hover:bg-gray-800 transition-colors text-sm sm:text-base"
-                >
-                  SUBMIT
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowEmailForm(false)}
-                  className="flex-1 border border-gray-300 p-2 sm:p-3 rounded font-mono hover:bg-gray-100 transition-colors text-sm sm:text-base"
-                >
-                  CANCEL
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       <div className="h-full flex items-center justify-center relative">
         <div className="fixed inset-0 pointer-events-none z-20">
@@ -481,43 +373,31 @@ function App() {
             >
               <div className="space-y-1 sm:space-y-2 pb-[32rem] md:pb-[32rem] lg:pb-[40rem] xl:pb-[48rem] 2xl:pb-[56rem]">
                 {projects.map((project, index) => (
-                  <div className="flex items-start" key={project.id}>
+                  <div className="flex items-start" key={project.id || project.name}>
                     <div
                       className="w-8 sm:w-10 md:w-12 xl:w-16 flex-shrink-0 text-black text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-jetbrains-mono pt-1.5 sm:pt-2.5 pointer-events-none"
                       style={{ WebkitTextStroke: '1px black' }}
                     >
-                      {project.id}
+                      {project.id || (index - 3).toString().padStart(3, '0')}
                     </div>
-                    
+
                     <div
                       ref={el => projectRefs.current[index] = el}
                       className="cursor-pointer flex-1 pointer-events-auto"
-                      onClick={() => index === 2 ? handleJoinUsClick() : handleProjectClick(project.id, project.name)}
+                      onClick={() => handleProjectClick(index, project.name)}
                       onMouseEnter={() => handleProjectHover(index)}
                       onMouseLeave={() => handleProjectLeave(index)}
                     >
                       <div className="text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-roboto-mono break-words pointer-events-none pt-1 sm:pt-2">
-                        {index !== 2 ? (
-                          <span
-                            className={`inline-block px-1 py-0.5 ${
-                              activeProject === index
-                                ? 'bg-[#2414ff] text-white font-bold'
-                                : 'text-black'
-                            }`}
-                          >
-                            {project.name}
-                          </span>
-                        ) : (
-                          <span
-                            className={`inline-block px-1 py-0.5 ${
-                              activeProject === index
-                                ? 'bg-[#2414ff] text-white font-bold'
-                                : 'text-black'
-                            }`}
-                          >
-                            {joinUsHovered && hoveredProject === index ? 'JOIN US' : '---'}
-                          </span>
-                        )}
+                        <span
+                          className={`inline-block px-1 py-0.5 ${
+                            activeProject === index
+                              ? 'bg-[#2414ff] text-white font-bold'
+                              : 'text-black'
+                          }`}
+                        >
+                          {project.name}
+                        </span>
                       </div>
                     </div>
                   </div>

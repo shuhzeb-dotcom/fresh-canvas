@@ -225,10 +225,10 @@ function App() {
       }
 
       const nextWord = currentTextRef.current.substring(wordStart, wordEnd);
-      const lineWithSpaceAndWord = prevLine + ' ' + nextWord;
+      const lineWithSpaceAndWord = prevLine.trimEnd() + ' ' + nextWord;
 
       // If the word won't fit, wrap now BEFORE typing the space
-      if (lineWithSpaceAndWord.length > MAX_LINE_WIDTH && prevLine.trim() !== '') {
+      if (lineWithSpaceAndWord.length >= MAX_LINE_WIDTH && prevLine.trim() !== '') {
         setDescriptionLines(lines => [...lines, prevLine.trim()]);
         currentTypingLineRef.current = '';
         setCurrentTypingLine('');

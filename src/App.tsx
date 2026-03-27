@@ -373,24 +373,29 @@ function App() {
             >
               <div className="space-y-1 sm:space-y-2 pb-[32rem] md:pb-[32rem] lg:pb-[40rem] xl:pb-[48rem] 2xl:pb-[56rem]">
                 {projects.map((project, index) => (
-                  <div className="flex items-start" key={project.name}>
-                    <div
-                      ref={el => projectRefs.current[index] = el}
-                      className="cursor-pointer flex-1 pointer-events-auto"
-                      onClick={() => handleProjectClick(index, project.name)}
-                      onMouseEnter={() => handleProjectHover(index)}
-                      onMouseLeave={() => handleProjectLeave(index)}
-                    >
-                      <div className="text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-roboto-mono break-words pointer-events-none pt-1 sm:pt-2">
-                        <span
-                          className={`inline-block px-1 py-0.5 ${
-                            activeProject === index
-                              ? 'bg-[#2414ff] text-white font-bold'
-                              : 'text-black'
-                          }`}
-                        >
-                          {project.name}
-                        </span>
+                  <div key={project.name}>
+                    {index === 3 && (
+                      <div className="my-4 sm:my-6 border-t border-gray-300"></div>
+                    )}
+                    <div className="flex items-start">
+                      <div
+                        ref={el => projectRefs.current[index] = el}
+                        className="cursor-pointer flex-1 pointer-events-auto"
+                        onClick={() => handleProjectClick(index, project.name)}
+                        onMouseEnter={() => handleProjectHover(index)}
+                        onMouseLeave={() => handleProjectLeave(index)}
+                      >
+                        <div className="text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-roboto-mono break-words pointer-events-none pt-1 sm:pt-2">
+                          <span
+                            className={`inline-block px-1 py-0.5 ${
+                              activeProject === index
+                                ? 'bg-[#2414ff] text-white font-bold'
+                                : 'text-black'
+                            }`}
+                          >
+                            {project.name}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -19,9 +19,9 @@ function App() {
   const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const portfolioItems = [
-    { id: '001', name: 'about', description: 'creative developer exploring the intersection of art and technology. building experiences that challenge perception and inspire connection.' },
-    { id: '002', name: 'work', description: 'a collection of projects spanning interactive installations, digital art, and experimental interfaces. each piece tells a story of innovation and creative exploration.' },
-    { id: '003', name: 'contact', description: 'reach out to collaborate or discuss ideas. i\'m always interested in new projects and creative partnerships that push boundaries.' },
+    { name: 'about', description: 'creative developer exploring the intersection of art and technology. building experiences that challenge perception and inspire connection.' },
+    { name: 'work', description: 'a collection of projects spanning interactive installations, digital art, and experimental interfaces. each piece tells a story of innovation and creative exploration.' },
+    { name: 'contact', description: 'reach out to collaborate or discuss ideas. i\'m always interested in new projects and creative partnerships that push boundaries.' },
   ];
 
   const poems = [
@@ -373,14 +373,7 @@ function App() {
             >
               <div className="space-y-1 sm:space-y-2 pb-[32rem] md:pb-[32rem] lg:pb-[40rem] xl:pb-[48rem] 2xl:pb-[56rem]">
                 {projects.map((project, index) => (
-                  <div className="flex items-start" key={project.id || project.name}>
-                    <div
-                      className="w-8 sm:w-10 md:w-12 xl:w-16 flex-shrink-0 text-black text-sm sm:text-base md:text-lg xl:text-xl leading-tight font-jetbrains-mono pt-1.5 sm:pt-2.5 pointer-events-none"
-                      style={{ WebkitTextStroke: '1px black' }}
-                    >
-                      {project.id || (index - 3).toString().padStart(3, '0')}
-                    </div>
-
+                  <div className="flex items-start" key={project.name}>
                     <div
                       ref={el => projectRefs.current[index] = el}
                       className="cursor-pointer flex-1 pointer-events-auto"

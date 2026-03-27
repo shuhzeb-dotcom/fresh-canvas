@@ -375,7 +375,7 @@ function App() {
                 {projects.map((project, index) => (
                   <div key={project.name}>
                     {index === 3 && (
-                      <div className="my-8 sm:my-12 text-black text-lg">★</div>
+                      <div className="my-6 sm:my-8 text-black text-4xl sm:text-5xl">★</div>
                     )}
                     <div className="flex items-start">
                       <div

@@ -383,9 +383,6 @@ function App() {
               <div className="space-y-1 sm:space-y-2 pb-[20vh]">
                 {projects.map((project, index) => (
                   <div key={project.name}>
-                    {index === 3 && (
-                      <div className="my-3 sm:my-4 text-black text-2xl sm:text-3xl">★</div>
-                    )}
                     <div className="flex items-start">
                       <div
                         ref={el => projectRefs.current[index] = el}

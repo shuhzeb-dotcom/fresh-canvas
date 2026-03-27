@@ -225,30 +225,41 @@ function App() {
       }
 
       const nextWord = currentTextRef.current.substring(wordStart, wordEnd);
-      const lineWithSpaceAndWord = prevLine + ' ' + nextWord;
+      const lineWithNextWord = prevLine + ' ' + nextWord;
 
-      console.log('Check wrap:', {
-        prevLine: `"${prevLine}"`,
-        prevLineLength: prevLine.length,
-        nextWord: `"${nextWord}"`,
-        testLine: `"${lineWithSpaceAndWord}"`,
-        testLength: lineWithSpaceAndWord.length,
-        maxWidth: MAX_LINE_WIDTH,
-        willWrap: lineWithSpaceAndWord.length > MAX_LINE_WIDTH
-      });
-
-      // If the word won't fit, wrap now BEFORE typing the space
-      if (lineWithSpaceAndWord.length > MAX_LINE_WIDTH && prevLine.trim() !== '') {
-        console.log('WRAPPING NOW');
+      // Check if next word alone would exceed limit
+      if (lineWithNextWord.length > MAX_LINE_WIDTH && prevLine.trim() !== '') {
+        // Wrap before this word
         setDescriptionLines(lines => [...lines, prevLine.trim()]);
         currentTypingLineRef.current = '';
         setCurrentTypingLine('');
-
-        // Skip the space
         currentCharIndexRef.current++;
-
         typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
         return;
+      }
+
+      // If next word fits, check if there's a word after it
+      // Find the word after next
+      let secondWordStart = wordEnd + 1;
+      if (secondWordStart < currentTextRef.current.length && currentTextRef.current[wordEnd] === ' ') {
+        let secondWordEnd = secondWordStart;
+        while (secondWordEnd < currentTextRef.current.length && currentTextRef.current[secondWordEnd] !== ' ') {
+          secondWordEnd++;
+        }
+
+        const secondWord = currentTextRef.current.substring(secondWordStart, secondWordEnd);
+        const lineWithBothWords = lineWithNextWord + ' ' + secondWord;
+
+        // If adding both words would exceed the limit, but we're past 75% full,
+        // wrap now to keep the two words together on the next line
+        if (lineWithBothWords.length > MAX_LINE_WIDTH && prevLine.length >= MAX_LINE_WIDTH * 0.75) {
+          setDescriptionLines(lines => [...lines, prevLine.trim()]);
+          currentTypingLineRef.current = '';
+          setCurrentTypingLine('');
+          currentCharIndexRef.current++;
+          typingTimeoutRef.current = setTimeout(typeNextCharacter, 0);
+          return;
+        }
       }
     }
 

@@ -234,11 +234,11 @@ function App() {
         testLine: `"${lineWithSpaceAndWord}"`,
         testLength: lineWithSpaceAndWord.length,
         maxWidth: MAX_LINE_WIDTH,
-        willWrap: lineWithSpaceAndWord.length >= MAX_LINE_WIDTH
+        willWrap: lineWithSpaceAndWord.length > MAX_LINE_WIDTH
       });
 
       // If the word won't fit, wrap now BEFORE typing the space
-      if (lineWithSpaceAndWord.length >= MAX_LINE_WIDTH && prevLine.trim() !== '') {
+      if (lineWithSpaceAndWord.length > MAX_LINE_WIDTH && prevLine.trim() !== '') {
         console.log('WRAPPING NOW');
         setDescriptionLines(lines => [...lines, prevLine.trim()]);
         currentTypingLineRef.current = '';

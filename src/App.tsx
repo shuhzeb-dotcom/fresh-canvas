@@ -19,17 +19,17 @@ function App() {
   const joinUsHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const portfolioItems = [
-    { name: 'about', description: 'Creative developer exploring the intersection of art and technology. Building experiences that challenge perception and inspire connection.' },
-    { name: 'work', description: 'A collection of projects spanning interactive installations, digital art, and experimental interfaces. Each piece tells a story of innovation and creative exploration.' },
-    { name: 'contact', description: 'Reach out to collaborate or discuss ideas. I\'m always interested in new projects and creative partnerships that push boundaries.' },
+    { name: 'about', description: 'Creative developer exploring art and technology.' },
+    { name: 'work', description: 'Projects spanning installations and interfaces.' },
+    { name: 'contact', description: 'Reach out to collaborate on new ideas.' },
   ];
 
   const poems = [
-    { name: 'dream', poem: 'Pixels dance in moonlight whispers, shadows stretch across screens. Silent echoes of forgotten songs play in digital dreams. Where code meets consciousness, new worlds emerge. Infinite possibilities written in the language of light.' },
-    { name: 'flow', poem: 'Rhythm pulses through the interface, each click a heartbeat. Motion follows thought, creating pathways where none existed. The user and the digital become one, flowing together in seamless harmony. Time dissolves in this moment of perfect interaction.' },
-    { name: 'echo', poem: 'Your input creates ripples across the surface. Each action reverberates through layers of code and design. Nothing is lost, only transformed. The echo of your presence lingers in the spaces between pixels.' },
-    { name: 'void', poem: 'In the darkness between screens, possibilities gather. Emptiness becomes canvas. The void is not absence, but potential waiting to be filled. We create light from nothing, meaning from code.' },
-    { name: 'storm', poem: 'Chaos beautiful and terrible. Data cascades like rain on windows. Patterns emerge from turbulence. This is where growth happens, where systems transform. The storm passes, leaving clarity in its wake.' },
+    { name: 'dream', poem: 'Pixels dance in moonlight whispers.' },
+    { name: 'flow', poem: 'Rhythm pulses through the interface.' },
+    { name: 'echo', poem: 'Your input creates ripples across the surface.' },
+    { name: 'void', poem: 'In the darkness, possibilities gather.' },
+    { name: 'storm', poem: 'Chaos beautiful and terrible.' },
   ];
 
   const projects = [...portfolioItems, ...poems];
